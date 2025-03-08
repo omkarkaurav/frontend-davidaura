@@ -1,42 +1,47 @@
 import React from "react";
+// import "../style/main.css";
+import InstagramIcon from "../assets/instagram-2016-logo-svgrepo-com.svg";
+import FacebookIcon from "../assets/icons8-facebook-logo (1).svg";
+import TwitterIcon from "../assets/icons8-x (1).svg";
+import RIghtArrowIcon from "../assets/right-arrow-svgrepo-com.svg";
+import BottleImage from "../assets/images/bottle-perfume-isolated-white-background_977935-10892-removebg-preview (1).png";
+
+
 
 const HeroSection = () => {
   return (
-    <section className="section-1">
-      <div className="hero-container">
-        <div className="title">
-          <h1>DEVID AURA</h1>
-          <p>Presence in every step</p>
+    <section class="section-1">
+    <div class="hero-container ">
+      <div class="title">
+        <div class="head-title">
+          <h1>DEVID  AURA</h1>
         </div>
-
-        <div className="bottle-image">
-          <img src="/assets/bottle-perfume.png" alt="Perfume Bottle" />
-        </div>
-
-        <div className="hero-bottom">
-          <a href="/shop">
+        <p>Presence in every step</p>
+        
+      </div>
+      <div class="bottle-image">
+        <img class="bottle-img" src={BottleImage} alt=""/>
+      </div>
+      <div class="hero-bottom">
+        <div class="shop-btn">
+          <a href="">
             <button>
               Shop Now
               <span>
-                <img src="/assets/right-arrow-svgrepo-com.svg" alt="Arrow" />
+                <img src={RIghtArrowIcon} alt=""/>
               </span>
             </button>
           </a>
-
-          <div className="social-link">
-            <a href="#">
-              <img src="/assets/instagram.svg" alt="Instagram" />
-            </a>
-            <a href="#">
-              <img src="/assets/x.svg" alt="Twitter" />
-            </a>
-            <a href="#">
-              <img src="/assets/facebook.svg" alt="Facebook" />
-            </a>
-          </div>
+        </div>
+        <div class="social-link">
+          <a href="#"><img src={InstagramIcon}alt=""/></a>
+          <a href="#"><img src={TwitterIcon} alt=""/></a>
+          <a href="#"><img src={FacebookIcon} alt=""/></a>
         </div>
       </div>
-    </section>
+    </div>
+
+  </section>
   );
 };
 

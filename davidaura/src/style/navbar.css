@@ -33,7 +33,7 @@ nav {
   padding: 0.5rem;
   align-items: center;
   position: fixed;
-  margin-top: 15px;
+  margin-top: 10px;
   border-radius: 22px;
   transition: all 0.s ease-in-out;
 }
@@ -124,18 +124,22 @@ nav {
 
 .sidebar {
   position: fixed;
-  top: 0%;
+  top: 0;
   left: 100%;
   width: 70vw;
-  height: 100vh;
+  height: 100dvh; /* Ensure full viewport height */
   background: #ffffff;
   color: white;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
   transition: all 0.5s ease;
-  overflow: auto;
+  overflow: hidden; /* Prevent scrolling */
   z-index: 999;
-  pointer-events: auto; /* Keep sidebar clickable */
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Ensures content is spaced correctly */
 }
+
 .logo {
   text-decoration: none;
   color: black;
@@ -163,14 +167,15 @@ nav {
   list-style: none;
   margin: 0;
   padding: 0;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  cursor: pointer;
 }
 
 .nav-links a {
-  color: white;
-  font-size: 1.2rem;
   text-decoration: none;
-  font-weight: bold;
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
 
 /* Container Styles */
@@ -377,7 +382,7 @@ nav {
   flex-direction: column;
   gap: 0.3rem;
   box-sizing: border-box;
-  margin-top: 10px;
+  /* margin-top: 10px; */
   font-weight: bold;
   align-items: center;
 }
@@ -396,6 +401,7 @@ nav {
   padding: 10px 10px;
   font-weight: bold;
   background-color: white;
+  color: #000000;
   border: 1px solid rgb(226, 226, 226);
   border-radius: 6px;
 }
@@ -443,11 +449,14 @@ nav {
   border: 1px solid rgb(226, 226, 226);
   border-radius: 99px;
   transition: background 0.5s ease;
+  font-weight: bolder;
+  color: white;
+  font-size: 16px;
+  border: 1px solid black;
+
 }
 
 #loginButton a {
-  font-weight: bolder;
-  font-size: 16px;
   text-decoration: none;
   color: whitesmoke;
 }
@@ -458,9 +467,7 @@ nav {
   border: 1px solid black;
 }
 
-#loginButton:hover a {
-  color: black;
-}
+
 @media (max-width: 480px) {
   .part-2 {
     display: none;
@@ -556,8 +563,8 @@ nav {
     display: flex;
     flex-direction: column;
     align-items: space-between;
-    gap: 140px;
-    height: 100vh;
+    gap: 0px;
+    height: 100dvh;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
   }
 
@@ -567,9 +574,11 @@ nav {
     align-items: start;
     padding: 20px;
     padding-left: 0px;
-    gap: 25px;
+    gap: 20px;
+    flex-grow: 1;
     justify-content: start;
-    margin-bottom: 40%;
+    /* margin-bottom: auto; */
+    flex-grow: 1;
   }
   .sidebar li {
     display: flex;
@@ -596,6 +605,7 @@ nav {
   }
 
   .sidebar #loginButton {
+    margin-top:auto;
     background-color: rgb(255, 255, 255);
     color: black;
     box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;

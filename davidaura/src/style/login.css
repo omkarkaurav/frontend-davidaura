@@ -62,7 +62,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: 12px;
-  background: #f8f8fb;
+  /* background: #f8f8fb; */
   border: 1px solid #dadaf2;
   border-radius: 5px;
   margin: 5px 0 24px 0;
@@ -187,9 +187,17 @@ a:hover {
   border-radius: 5px;
   cursor: pointer;
 }
-button:hover {
-  background: #4954d0;
+
+.register_form button {
+  width: 100%;
+  padding: 10px;
+  background: #626cd6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
+
 
 .error {
   color: red;
@@ -229,6 +237,7 @@ button:hover {
 .register-password {
   display: flex;
   justify-content: space-between;
+  gap: 20px;
 }
 
 /* Google & Apple button styling */
@@ -249,7 +258,7 @@ button:hover {
   justify-content: center;
   align-items: center;
   gap: 12px;
-  background: #f8f8fb;
+  /* background: #f8f8fb; */
   border: 1px solid #dadaf2;
   border-radius: 5px;
   margin: 5px 0 24px 0;

@@ -1,29 +1,51 @@
-import React from "react";
-import ProductImage from "../assets/images/mockup-empty-perfume-bottle-perfume-brand-design_826454-355-removebg-preview.png";
-import WishlistImage from "../assets/wishlist-svgrepo-com.svg";
+// src/pages/Products.js
+import React, { useContext } from "react";
+import { ProductContext } from "../contexts/productContext"; // Using global product data
+import WishlistImage from "../assets/wishlist-svgrepo-com.svg"; // Default Wishlist Icon
+import WishlistFilledImage from "../assets/wishlist-svgrepo-com copy.svg"; // Filled Wishlist Icon
 import CartImage from "../assets/cart-svgrepo-com copy.svg";
 
-const products = [
-  { name: "Attractive", oprice: 1999, size: 100, discount: 65, img: ProductImage },
-  { name: "Desire", oprice: 1999, size: 100, discount: 65, img: ProductImage },
-  { name: "Heaven", oprice: 1999, size: 100, discount: 65, img: ProductImage },
-  { name: "Wild", oprice: 1999, size: 100, discount: 65, img: ProductImage },
-];
+const Products = ({ cart, setCart, wishlist, setWishlist }) => {
+  // Get the products list from context
+  const { products } = useContext(ProductContext);
 
-const Products = () => {
-  const toggleCartItem = (product) => {
-    console.log(`Added to cart: ${product.name}`);
+  const toggleCart = (product) => {
+    setCart((prevCart) => {
+      const existingItem = prevCart.find((item) => item.name === product.name);
+      if (existingItem) {
+        // Remove item if already in cart
+        return prevCart.filter((item) => item.name !== product.name);
+      } else {
+        // Add item to cart
+        return [
+          ...prevCart,
+          {
+            ...product,
+            dprice: Math.trunc(product.oprice - (product.oprice * product.discount) / 100),
+            quantity: 1,
+          },
+        ];
+      }
+    });
   };
 
-  const addToWishlist = (product) => {
-    console.log(`Added to wishlist: ${product.name}`);
+  const toggleWishlist = (product) => {
+    setWishlist((prevWishlist) =>
+      prevWishlist.some((item) => item.name === product.name)
+        ? prevWishlist.filter((item) => item.name !== product.name)
+        : [...prevWishlist, product]
+    );
   };
 
   return (
     <section className="py-10 flex flex-col items-center">
       <div className="w-full flex flex-wrap justify-center gap-8 px-6">
         {products.map((product, index) => {
-          const discountedPrice = Math.trunc(product.oprice - (product.oprice * product.discount) / 100);
+          const discountedPrice = Math.trunc(
+            product.oprice - (product.oprice * product.discount) / 100
+          );
+          const inCart = cart.some((item) => item.name === product.name);
+          const inWishlist = wishlist.some((item) => item.name === product.name);
 
           return (
             <div
@@ -35,14 +57,18 @@ const Products = () => {
 
               {/* Wishlist Button */}
               <button
-                onClick={() => addToWishlist(product)}
-                className=" absolute top-2 right-2  p-2 "
+                onClick={() => toggleWishlist(product)}
+                className="absolute top-2 right-2 p-2 rounded-full transition"
               >
-                <img src={WishlistImage} alt="wishlist" className="w-10 h-10" />
+                <img
+                  src={inWishlist ? WishlistFilledImage : WishlistImage}
+                  alt="wishlist"
+                  className="w-10 h-10"
+                />
               </button>
 
               {/* Product Title & Size */}
-              <div className=" w-9/10 flex justify-between items-center">
+              <div className="w-9/10 flex justify-between items-center">
                 <h3 className="text-lg font-semibold">{product.name}</h3>
                 <span className="text-gray-700 font-medium">{product.size} ml</span>
               </div>
@@ -50,18 +76,20 @@ const Products = () => {
               {/* Pricing */}
               <div className="w-9/10 flex justify-between items-center">
                 <span className="flex justify-between gap-4 items-center">
-                <span className="text-lg font-bold text-black">₹{discountedPrice}</span>
-                <span className="text-sm text-gray-400 line-through">(₹{product.oprice})</span>
+                  <span className="text-lg font-bold text-black">₹{discountedPrice}</span>
+                  <span className="text-sm text-gray-400 line-through">(₹{product.oprice})</span>
                 </span>
                 <span className="text-blue-700 font-semibold">{product.discount}% Off</span>
               </div>
 
               {/* Add to Cart Button */}
               <button
-                onClick={() => toggleCartItem(product)}
-                className="w-full h-full py-2  bg-black text-white text-lg font-semibold flex items-center justify-center gap-2 hover:bg-gray-900 transition"
+                onClick={() => toggleCart(product)}
+                className={`w-full py-2 text-lg font-semibold flex items-center justify-center gap-2 transition ${
+                  inCart ? "bg-black text-white" : "bg-black text-white"
+                }`}
               >
-                Add to Cart
+                {inCart ? "Remove from Cart" : "Add to Cart"}
                 <img src={CartImage} alt="Cart" className="w-8 h-8" />
               </button>
             </div>
@@ -73,4 +101,3 @@ const Products = () => {
 };
 
 export default Products;
-

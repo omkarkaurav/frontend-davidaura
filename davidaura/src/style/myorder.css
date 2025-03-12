@@ -1,6 +1,7 @@
 .myorder-container {
     display: flex;
     width: 100%;
+    min-height: 100vh;
     flex-direction: column;
     padding: 0px 30px;
 }
@@ -64,11 +65,15 @@
     margin-top: 10px;
 }
 
+.order-item{
+    margin-top: 20px;
+}
 .order-items img {
     width: 50px;
     height: 50px;
     border-radius: 5px;
     margin-right: 10px;
+    margin-bottom: 5px;
 }
 
 .buttons {
@@ -88,14 +93,18 @@ button {
 }
 
 .track-btn {
-    background: black;
-    border: 1px solid black;
+    background: rgb(0, 0, 0);
+    border: 1px solid rgb(34, 34, 34);
 }
 
 .cancel-btn {
-    background: red;
+    background: rgb(189, 30, 30);
 }
 
+.reorder-btn {
+    background: rgb(3, 56, 112);
+    color: white;
+}
 .track-btn:hover {
     background: white;
     color: black;
@@ -103,7 +112,7 @@ button {
 }
 
 .cancel-btn:hover {
-    background: darkred;
+    background: rgb(211, 4, 4);
 }
 
 .tracking-status {
@@ -113,35 +122,6 @@ button {
     background: #f0f0f0;
 }
 
-.suggested-product {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 8px;
-    background: white;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-.suggested-product img {
-    width:50%;
-    max-height: 100px;
-    object-fit: cover;
-    border-radius: 5px;
-}
-
-.suggested-product h4 {
-    font-size: 14px;
-    margin-top: 5px;
-}
-
-.suggested-product p {
-    font-size: 12px;
-    color: #777;
-}
 
 /* Progress steps */
 .progress-steps {
@@ -151,17 +131,13 @@ button {
     width: 100%;
     position: relative;
     margin-top: 30px;
-    flex-wrap: wrap; /* Allow steps to wrap on smaller screens */
-    gap: 10px; /* Add some spacing between steps */
+    flex-wrap: wrap; 
 }
 
 .step-wrapper {
     display: flex;
-    flex-direction: column;
     align-items: center;
     position: relative;
-    width: 25%; /* Allow each step to take 25% of the width */
-    min-width: 80px; /* Ensures the steps don't get too small */
     text-align: center;
 }
 
@@ -230,12 +206,14 @@ button {
 
     /* Progress steps adjustments for smaller screens */
     .progress-steps {
-        justify-content: center; /* Center the progress steps */
+        justify-content: space-between; /* Center the progress steps */
     }
 
     .step-wrapper {
-        width: 33%; /* Reduce the width of each step */
-        min-width: 60px; /* Prevent steps from becoming too small */
+        /* width: 35%; */
+        margin-top: 10px;
+        justify-content: space-between;
+        /* min-width: 60px; Prevent steps from becoming too small */
     }
 
     .step-number {
@@ -276,13 +254,18 @@ button {
 
     /* Progress steps adjustments for mobile screens */
     .progress-steps {
-        justify-content: center; /* Center progress steps */
-        gap: 5px; /* Reduce gap between steps */
+        /* flex-wrap: wrap; */
+        justify-content: left; /* Center progress steps */
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;     
     }
 
     .step-wrapper {
-        width: 50%; /* Allow each step to take half the width */
-        min-width: 50px; /* Prevent too small step numbers */
+        /* width: 50%; Allow each step to take half the width */
+        /* min-width: 50px; Prevent too small step numbers */
+        justify-content: space-between;
+        gap: 20px;
     }
 
     .step-number {
@@ -295,15 +278,5 @@ button {
         font-size: 10px;
     }
 
-    .suggested-product img {
-        width: 80%; /* Make product images smaller on mobile */
-    }
-
-    .suggested-product h4 {
-        font-size: 12px; /* Adjust text size for better readability */
-    }
-
-    .suggested-product p {
-        font-size: 10px;
-    }
+    
 }

@@ -9,7 +9,8 @@ import WishlistIcon from "../assets/wishlist-svgrepo-com.svg";
 import { useNavigate } from "react-router-dom";
 import "../style/navbar.css";
 
-const Navbar = () => {
+
+const Navbar = ({ cartCount = 0 , wishlistCount = 0 }) => {
   const navigate = useNavigate();
   const isLoggedIn = false; // Replace with actual auth logic
 
@@ -73,32 +74,23 @@ const Navbar = () => {
             <li onClick={() => navigate("/")}>Shop</li>
           </ul>
 
-          <div className="search-container">
-            <div className="search-box">
-              <input
-                type="text"
-                id="search-input"
-                placeholder="Search for perfumes..."
-              />
-              <ul id="search-results" className="results-list"></ul>
-            </div>
-          </div>
+          
         </div>
         <div className="part-3">
           <div className="icons">
             <div className="wishlist-icon">
-              <a href="wishlist.html">
+              <a onClick={() => navigate("/wishlist")}>
                 <button id="wishlist-icon">
-                  <img src={WishlistIcon} alt="wishlist" />
-                  <span id="wishlist-count">0</span>
+                  <img className="wishlist-img" src={WishlistIcon} alt="wishlist"/>
+                  <span id="wishlist-count">{wishlistCount >= 0 ? wishlistCount : 0}</span>
                 </button>
               </a>
             </div>
             <div className="cart-icon">
-              <a href="cart.html">
+              <a onClick={() => navigate("/cart")}>
                 <button id="cart-icon">
                   <img src={CartIcon} alt="Cart" />
-                  <span id="cart-count">0</span>
+                  <span id="cart-count">{cartCount >= 0 ? cartCount : 0}</span>
                 </button>
               </a>
             </div>
@@ -128,23 +120,15 @@ const Navbar = () => {
                   />
                   <div className="user-data">
                     <h3 id="profile-name">John Doe</h3>
-                    <p id="profile-phone">123-456-7890</p>
                     <p id="profile-email">john.doe@example.com</p>
-                    <button id="edit-profile">Edit Profile</button>
                   </div>
                 </div>
                 <ul>
                   <li>
-                    <a href="myorder.html">My Orders</a>
-                  </li>
-                  <li>
-                    <a href="wishlist.html">Wishlist</a>
-                  </li>
-                  <li>
-                    <a href="#">Account Settings</a>
+                    <a onClick={() => navigate("/myorder")}>My Orders</a>
                   </li>
                   <li id="logout">
-                    <a href="#" id="logout-btn">
+                    <a onClick={() => navigate("/")} id="logout-btn">
                       Log Out
                     </a>
                   </li>
@@ -174,33 +158,31 @@ const Navbar = () => {
                       />
                       <div className="user-data">
                         <h3 id="mob-profile-name">Omkar Kaurav</h3>
-                        <p id="mob-profile-phone">123-456-7890</p>
                         <p id="mob-profile-email">john.doe@example.com</p>
-                        <button id="mob-edit-profile">Edit Profile</button>
                       </div>
                       <ul>
                         <li>
                           <img src={MyOrderIcon} alt="" />
-                          <a href="myorder.html" onClick={() => navigate("/myorder")}>My Orders</a>
+                          <a onClick={() => navigate("/myorder")}>My Orders</a>
                         </li>
                         <li>
                           <img src={WishlistIcon} alt="" />
-                          <a href="wishlist.html">Wishlist</a>
+                          <a onClick={() => navigate("/wishlist")}>Wishlist</a>
                         </li>
                         <li>
                           <img src={CartIcon} alt="" />
-                          <a href="cart.html">Cart</a>
+                          <a onClick={() => navigate("/cart")}>Cart</a>
                         </li>
                         <li>
                           <img src={AddressIcon} alt="" />
-                          <a href="#">Address</a>
+                          <a >Address</a>
                         </li>
                         <li>
                           <img src={MailUsIcon} alt="" />
-                          <a href="#">Mail Us</a>
+                          <a>Mail Us</a>
                         </li>
                         <li className="logout" id="logout-2">
-                          <a href="#" id="logout-btn-2">
+                          <a onClick={() => navigate("/")} id="logout-btn-2">
                             Log Out
                           </a>{" "}
                           <img src={LogOutIcon} alt="" />
@@ -208,7 +190,7 @@ const Navbar = () => {
                       </ul>
                       <div id="loginSignupButtons-2">
                         <button id="loginButton">
-                          <a href="login.html" id="login-signup" onClick={() => navigate("/login")}>
+                          <a id="login-signup" onClick={() => navigate("/login")}>
                             Login / Sign Up
                           </a>
                         </button>

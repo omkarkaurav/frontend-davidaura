@@ -217,13 +217,8 @@ header {
   justify-content: center;
   gap: 2px;
 }
-img{
-  width: auto;
-}
 
-.wishlist-img{
-  width: 40px;
-}
+
 
 #wishlist-count {
   background-color: transparent;

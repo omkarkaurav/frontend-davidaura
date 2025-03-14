@@ -366,6 +366,28 @@ header {
   border: 1px solid black;
 }
 
+.part-2 a {
+  font-size: 16px;
+  color: #000;
+  text-decoration: none !important;
+  position: relative; /* Required for absolute positioning of the pseudo-element */
+}
+
+.part-2 a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px; /* Adjust as needed */
+  width: 0;
+  height: 2px; /* Thickness of the underline */
+  background-color: currentColor; /* Uses the link's color */
+  transition: width 0.5s ease-in-out;
+}
+
+.part-2 a:hover::after {
+  width: 100%;
+}
+
 /* Responsive Media Queries */
 
 @media (max-width:1095px) {
@@ -393,8 +415,11 @@ header {
   .nav-links{
     gap: 1.5rem;
   }
-  .nav-links li {
-    font-size: 0.7rem;
+
+
+  .part-2 a {
+    font-size: 0.65rem;
+   
   }
  
 
@@ -414,6 +439,10 @@ header {
 @media (max-width:795px) {
   #navbar{
     width: 95%;
+  }
+  .part-2 a {
+    font-size: 0.6rem;
+   
   }
 }
 

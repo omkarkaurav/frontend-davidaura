@@ -5,17 +5,31 @@ import { ProductContext } from "../contexts/productContext"; // Global product d
 import WishlistImage from "../assets/wishlist-svgrepo-com.svg"; // Default wishlist icon
 import WishlistFilledImage from "../assets/wishlist-svgrepo-com copy.svg"; // Filled wishlist icon
 import CartImage from "../assets/cart-svgrepo-com copy.svg"; // Cart icon
+import { useLocation } from "react-router-dom";
 
 // -------------------------------
 // Modal Component (Detailed Perfume Info)
 // -------------------------------
 const Modal = ({ product, onClose }) => {
   const [animate, setAnimate] = useState(false);
+  const location = useLocation();
+
 
   useEffect(() => {
-    // Trigger the "grow" animation on mount.
     setAnimate(true);
-  }, []);
+
+    if (location.state && location.state.scrollTo) {
+      const timeoutId = setTimeout(() => {
+        const targetElement = document.getElementById(location.state.scrollTo);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100); // Adjust delay if necessary
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [location]);
+  
 
   return (
     <div

@@ -1,36 +1,63 @@
 import React from "react";
 import "../style/footer.css";
+import { useNavigate } from "react-router-dom";
 
 import InstagramIcon from "../assets/instagram-2016-logo-svgrepo-com.svg";
 import FacebookIcon from "../assets/icons8-facebook-logo (1).svg";
 import TwitterIcon from "../assets/icons8-x (1).svg";
 
 const Footer = () => {
+  const navigate = useNavigate();
+  
+
   return (
     <footer class="footer">
       <div class="footer-top">
         <div class="footer-container">
           <div class="row">
             <div class="footer-col site-logo">
-              <a href="index.html">
-                DevidAura
-              </a>
+              <h1>DEvidAura</h1>
             </div>
             <div class="footer-col">
               <ul class="footer-nav-links">
-                <li onClick={() => document.getElementById('home-section').scrollIntoView({ behavior: 'smooth' })}>
-                  Home
-                </li>
-                <li onClick={() => document.getElementById('products-section').scrollIntoView({ behavior: 'smooth' })}>
-                  Products
-                </li>
-                <li onClick={() => document.getElementById('shop-section').scrollIntoView({ behavior: 'smooth' })}>
-                  Shop
+                <li>
+                <a   onClick={() => {
+                  if (window.location.pathname === "/") {
+                    const targetElement = document.getElementById("home-section");
+                    if (targetElement) {
+                      targetElement.scrollIntoView({ behavior: "smooth" });
+                    }
+                  } else {
+                    navigate("/", { state: { scrollTo: "home-section" } });
+                  }
+                }}>Home</a>
                 </li>
                 <li>
-                  <a onClick={() =>navigate("/contact")}>
-                  Contact Us
-                  </a>
+                <a   onClick={() => {
+                  if (window.location.pathname === "/") {
+                    const targetElement = document.getElementById("products-section");
+                    if (targetElement) {
+                      targetElement.scrollIntoView({ behavior: "smooth" });
+                    }
+                  } else {
+                    navigate("/", { state: { scrollTo: "products-section" } });
+                  }
+                }}>Products</a>
+                </li>
+                <li>
+                  <a   onClick={() => {
+                  if (window.location.pathname === "/") {
+                    const targetElement = document.getElementById("shop-section");
+                    if (targetElement) {
+                      targetElement.scrollIntoView({ behavior: "smooth" });
+                    }
+                  } else {
+                    navigate("/", { state: { scrollTo: "shop-section" } });
+                  }
+                }}>Shop</a>
+                </li>
+                <li>
+                <a onClick={() =>navigate("/")}>Contact Us</a>
                 </li>
               </ul>
             </div>
@@ -66,15 +93,12 @@ const Footer = () => {
             </div>
           </div>
           <div className="credits">
-              <div className="developer">
-                <p className="frontend">
-                  <strong>Frontend:</strong> Omkar Kaurav
-                </p>
-                <p className="frontend">
-                  <strong>Backend:</strong> Dev Bandil
-                </p>
-              </div>
+            <div className="developer">
+              <p className="frontend">
+                <strong>Backend:</strong> Dev Bandil
+              </p>
             </div>
+          </div>
         </div>
       </div>
     </footer>

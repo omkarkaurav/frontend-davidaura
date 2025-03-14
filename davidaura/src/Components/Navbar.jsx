@@ -102,9 +102,9 @@ const Navbar = ({ cartCount = 0, wishlistCount = 0 }) => {
         {/* ------------------ Part 2: Navigation Links ------------------ */}
         <div className="part-2">
           <ul className="nav-links">
-            <li onClick={() => navigate("/")}>Home</li>
-            <li onClick={() => document.getElementById('products-section').scrollIntoView({ behavior: 'smooth' })}>Products</li>
-            <li onClick={() => document.getElementById('shop-section').scrollIntoView({ behavior: 'smooth' })}>Shop</li>
+            <li> <a onClick={() => navigate("/")}>Home </a></li>
+            <li> <a onClick={() => document.getElementById('products-section').scrollIntoView({ behavior: 'smooth' })}>Products</a> </li>
+            <li> <a onClick={() => document.getElementById('shop-section').scrollIntoView({ behavior: 'smooth' })}>Shop</a> </li>
           </ul>
         </div>
 

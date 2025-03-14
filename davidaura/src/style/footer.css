@@ -11,6 +11,7 @@
     overflow-x: hidden;
 }
 
+
 .footer-container {
     width: 100%;
     max-width: 1200px;
@@ -80,22 +81,17 @@
     gap: 15px;
 }
 
-.social-links li a {
-    text-decoration: none;
-    color: #333;
-    font-size: 16px;
-}
+
 
 .footer-bottom {
     
     text-align: center;
 }
 
-.site-logo a {
+.site-logo{
     font-size: 3.8rem;
     font-weight: bold;
     color: #333;
-    text-decoration: none;
 }
 
 .footer-bottom p {
@@ -110,16 +106,36 @@
     gap: 15px;
 }
 
+footer a {
+    color: #000;
+    text-decoration: none !important;
+    position: relative; /* Required for absolute positioning of the pseudo-element */
+  }
+  
+  footer a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px; /* Adjust as needed */
+    width: 0;
+    height: 2px; /* Thickness of the underline */
+    background-color: currentColor; /* Uses the link's color */
+    transition: width 0.5s ease-in-out;
+  }
+  
+footer a:hover::after {
+    width: 100%;
+  }
+
 @media(max-width:430px){
     .row{
         flex-direction: column;
     }
 
-    .site-logo a {
+    .site-logo {
         font-size: 3rem;
         font-weight: bold;
         color: #333;
-        /* text-decoration: none; */
     }
     
 }

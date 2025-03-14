@@ -463,6 +463,14 @@ h2{
   background: #218838;
 }
 
+.confirmation{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+}
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .payment-method-selection {

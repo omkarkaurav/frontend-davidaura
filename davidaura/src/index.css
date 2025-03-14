@@ -3,3 +3,21 @@
 @tailwind components;
 @tailwind utilities;
 
+.product-heading {
+    /* Tailwind text-6xl is equivalent to a font size of 3.75rem (~60px if base is 16px) */
+    font-size: 3.2rem;
+    
+    /* Tailwind font-black sets a font weight of 900 */
+    font-weight: 900;
+    
+    /* py-20 means padding-top and padding-bottom of 5rem (80px) */
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    
+    /* my-20 means margin-top and margin-bottom of 5rem (80px) */
+    /* margin-top: 5rem; */
+    /* margin-bottom: 5rem; */
+    text-align: center;
+  }
+
+ 

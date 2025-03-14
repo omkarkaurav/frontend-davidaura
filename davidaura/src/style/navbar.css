@@ -15,10 +15,7 @@ body {
   background-color: white;
   overflow-x: hidden;
 }
-body.no-scroll {
-  overflow: hidden;
-  pointer-events: none; /* Disable all clicks on background */
-}
+
 
 /* Header & Navbar Container */
 header {
@@ -27,15 +24,15 @@ header {
   justify-content: center;
   position: absolute;
   align-items: center;
-  z-index: 99999;
+  z-index: 9999 ;
 }
 
 #navbar {
   width: 80%;
-  /* max-width: 1200px; */
+  max-width: 1200px;
   display: flex;
   justify-content: space-between;
-  padding: 0.2rem 0.5rem;
+  padding: 0.2rem 0rem 0.0rem 1rem;
   align-items: center;
   position: fixed;
   margin-top: 10px;
@@ -44,6 +41,9 @@ header {
   background-color: white;
   gap: 10px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+#navbar a{
+  text-decoration: none;
 }
 
 /* Left Part */
@@ -160,9 +160,9 @@ header {
   align-items: center;
   gap: 2rem;
   justify-content: space-between;
-  background-color: var(--blue);
+  /* background-color: var(--blue); */
   padding: 5px 30px 5px 30px;
-  border-radius: 99px;
+  /* border-radius: 99px; */
 }
 
 /* Navigation Links */
@@ -176,11 +176,11 @@ header {
   font-weight: bold;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   cursor: pointer;
-  color: white;
+  /* color: white; */
 }
 .nav-links a {
   text-decoration: none;
-  color: white;
+  /* color: white; */
 }
 
 
@@ -423,6 +423,8 @@ header {
     padding: 15px 10px ;
     background-color: white;
     margin-top: 0px;
+    border-radius: 0px;
+
     box-shadow: rgba(0, 0, 0, 0.1) -4px 9px 25px -6px;
   }
   .part-2 {
@@ -546,13 +548,15 @@ header {
   }
 
   #loginSignupButtons-2{
-    margin-top:120px;
+    margin-top:0px;
     height:100%;
+    margin-bottom: 30px;
   }
   .sidebar #loginButton {
     background-color: rgb(255, 255, 255);
     color: black;
-    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+    border-radius: 12px;
+    /* box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset; */
   }
 
   #loginButton a {

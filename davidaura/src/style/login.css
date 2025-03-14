@@ -304,6 +304,33 @@ a:hover {
   background: #c2c2c2;
   display: block;
 }
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+}
+
+.password_container {
+  display: flex;
+  flex-direction: column;
+}
+
+.password-info {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+}
+.password-info ul {
+  list-style-type: disc;
+  padding-left: 20px; /* add some left padding so the disc is visible */
+  margin: 4px 0;
+}
+
+.password-info li {
+  margin-bottom: 2px;
+}
+
 @media (max-width: 480px) {
   .register_form {
     width: 90%;

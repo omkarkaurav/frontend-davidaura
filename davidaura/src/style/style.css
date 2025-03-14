@@ -1,7 +1,11 @@
-/* Hero Section */
+
+html{
+  overflow-x: hidden;
+}
 section {
   width: 100%;
   min-height: 100vh;
+  margin-bottom: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,7 +33,7 @@ section {
   align-items: center;
   padding-bottom: 15px;
   position: relative;
-  z-index: 9999;
+  /* z-index: 9999; */
   color: black;
   text-align: center;
 }
@@ -61,7 +65,7 @@ section {
 .shop-btn {
   margin-left: 80px;
   position: relative;
-  z-index: 9999;
+  z-index: 99;
   margin-top: 30px;
 }
 
@@ -158,7 +162,7 @@ section {
     align-items: center;
     padding-bottom: 15px;
     position: relative;
-    z-index: 9999;
+    /* z-index: 999; */
     color: black;
     text-align: center;
   }
@@ -188,7 +192,7 @@ section {
     margin-left: 0px;
     margin-top: 100px;
     position: relative;
-    z-index: 9999;
+    z-index: 999;
   }
 
   .shop-btn button {
@@ -230,7 +234,7 @@ section {
     top: 20px;
     right: -20px;
     background-color: white;
-    z-index: 9999;
+    z-index: 999;
     box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
       rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
   }

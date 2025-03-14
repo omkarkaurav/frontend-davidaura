@@ -5,13 +5,21 @@ import "../style/checkout.css";
 import "../style/cart.css";
 import { OrderContext } from "../contexts/OrderContext";
 
-// Helper function to format address
+// -------------------------------------------------------------------
+// Helper Function: formatAddress
+// Formats an address object into a display string.
+// -------------------------------------------------------------------
 const formatAddress = (address) => {
   if (!address) return "";
-  return `${address.name} - ${address.address}, ${address.city}, ${address.state}, ${address.country} (${address.pincode})`;
+  return `${address.name} - ${address.address}, ${address.city}, ${address.state}, ${address.country} (${address.pincode})${
+    address.phone ? " - Phone: " + address.phone : ""
+  }`;
 };
 
-// AddressSelection Component
+// -------------------------------------------------------------------
+// Component: AddressSelection
+// Renders a list of saved addresses and a form to add or edit an address.
+// -------------------------------------------------------------------
 function AddressSelection({
   addresses,
   selectedAddress,
@@ -33,9 +41,7 @@ function AddressSelection({
           <div
             key={index}
             className={`address-item ${
-              selectedAddress && selectedAddress.pincode === addr.pincode
-                ? "active"
-                : ""
+              selectedAddress && selectedAddress.pincode === addr.pincode ? "active" : ""
             }`}
           >
             <span
@@ -43,6 +49,7 @@ function AddressSelection({
                 setSelectedAddress(addr);
                 setNewAddress({
                   name: "",
+                  phone: "",
                   address: "",
                   city: "",
                   pincode: "",
@@ -54,16 +61,10 @@ function AddressSelection({
               {formatAddress(addr)}
             </span>
             <div className="address-actions">
-              <button
-                onClick={() => handleEditAddress(index)}
-                className="btn btn-link edit-button"
-              >
+              <button onClick={() => handleEditAddress(index)} className="btn btn-link edit-button">
                 Edit
               </button>
-              <button
-                onClick={() => handleDeleteAddress(index)}
-                className="btn btn-link delete-button"
-              >
+              <button onClick={() => handleDeleteAddress(index)} className="btn btn-link delete-button">
                 Delete
               </button>
             </div>
@@ -80,9 +81,7 @@ function AddressSelection({
             placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
             value={newAddress[field]}
             onFocus={() => setSelectedAddress(null)}
-            onChange={(e) =>
-              setNewAddress({ ...newAddress, [field]: e.target.value })
-            }
+            onChange={(e) => setNewAddress({ ...newAddress, [field]: e.target.value })}
             onBlur={field === "pincode" ? handlePincodeBlur : null}
             className="form-control"
           />
@@ -103,16 +102,13 @@ function AddressSelection({
   );
 }
 
-// OrderSummary Component
+// -------------------------------------------------------------------
+// Component: OrderSummary
+// Displays the selected delivery address, products, and pricing breakdown.
+// -------------------------------------------------------------------
 function OrderSummary({ selectedAddress, selectedItems, couponDiscount, deliveryCharge }) {
-  const originalTotal = selectedItems.reduce(
-    (acc, item) => acc + item.oprice * (item.quantity || 1),
-    0
-  );
-  const productTotal = selectedItems.reduce(
-    (acc, item) => acc + item.dprice * (item.quantity || 1),
-    0
-  );
+  const originalTotal = selectedItems.reduce((acc, item) => acc + item.oprice * (item.quantity || 1), 0);
+  const productTotal = selectedItems.reduce((acc, item) => acc + item.dprice * (item.quantity || 1), 0);
   const discountCalculated = originalTotal - productTotal;
   const finalPrice = productTotal - couponDiscount + deliveryCharge;
 
@@ -149,9 +145,7 @@ function OrderSummary({ selectedAddress, selectedItems, couponDiscount, delivery
       </div>
       <div className="price-breakdown">
         <p>
-          <span>
-            Products ({selectedItems.reduce((acc, item) => acc + (item.quantity || 1), 0)} items):
-          </span>
+          <span>Products ({selectedItems.reduce((acc, item) => acc + (item.quantity || 1), 0)} items):</span>
           <span>₹{productTotal}</span>
         </p>
         <p>
@@ -177,7 +171,11 @@ function OrderSummary({ selectedAddress, selectedItems, couponDiscount, delivery
   );
 }
 
-// PaymentDetails Component
+// -------------------------------------------------------------------
+// Component: PaymentDetails
+// Handles payment method selection and displays relevant input fields.
+// For "Cash on Delivery", payment is auto-verified without a Pay Now button.
+// -------------------------------------------------------------------
 function PaymentDetails({
   paymentMethod,
   setPaymentMethod,
@@ -187,12 +185,8 @@ function PaymentDetails({
   verifyUpi,
   selectedUpiApp,
   setSelectedUpiApp,
-  onPlaceOrder,
-  productTotal,
-  discountCalculated,
-  couponDiscount, // percentage value from cart
-  deliveryCharge,
-  totalPrice,
+  onPaymentVerified,
+  paymentVerified,
 }) {
   const [summaryExpanded, setSummaryExpanded] = useState(false);
   const [expiry, setExpiry] = useState("");
@@ -200,11 +194,14 @@ function PaymentDetails({
   const [cvv, setCvv] = useState("");
   const [upiError, setUpiError] = useState("");
 
-  // Compute actual coupon discount amount in rupees
-  const CouponDiscounted = couponDiscount
-    ? Math.trunc((couponDiscount / 100) * productTotal)
-    : 0;
+  // Automatically mark payment as verified when Cash on Delivery is selected.
+  useEffect(() => {
+    if (paymentMethod === "Cash on Delivery") {
+      onPaymentVerified(true);
+    }
+  }, [paymentMethod, onPaymentVerified]);
 
+  // Format expiry date as MM/YY
   const handleExpiryChange = (e) => {
     const digits = e.target.value.replace(/\D/g, "");
     let formatted = "";
@@ -218,6 +215,7 @@ function PaymentDetails({
     setExpiry(formatted);
   };
 
+  // Format card number into groups of 4 digits
   const handleCardNumberChange = (e) => {
     let digits = e.target.value.replace(/\D/g, "");
     if (digits.length > 16) {
@@ -227,6 +225,7 @@ function PaymentDetails({
     setCardNumber(formatted);
   };
 
+  // Limit CVV input to 3 digits
   const handleCvvChange = (e) => {
     let digits = e.target.value.replace(/\D/g, "");
     if (digits.length > 3) {
@@ -235,6 +234,7 @@ function PaymentDetails({
     setCvv(digits);
   };
 
+  // Validate UPI ID format
   const handleUpiVerification = () => {
     const regex = /^[a-zA-Z0-9.\-_]{2,}@[a-zA-Z]{2,}$/;
     if (regex.test(upiId)) {
@@ -244,22 +244,21 @@ function PaymentDetails({
     }
   };
 
+  // Simulate payment verification for UPI and Debit Card methods.
+  const handlePayNow = () => {
+    onPaymentVerified(true);
+  };
+
   return (
     <div className="payment-details">
       <div className="payment-summary">
-        <div
-          className="summary-header"
-          onClick={() => setSummaryExpanded(!summaryExpanded)}
-        >
-          <span>Total: ₹{totalPrice}</span>
+        <div className="summary-header" onClick={() => setSummaryExpanded(!summaryExpanded)}>
+          <span>Payment Section</span>
           <span className="toggle-icon">{summaryExpanded ? "▲" : "▼"}</span>
         </div>
         {summaryExpanded && (
           <div className="summary-details">
-            <p>Products Total: ₹{productTotal}</p>
-            <p>Discount: ₹{discountCalculated}</p>
-            <p>Coupon Discount: ₹{CouponDiscounted}</p>
-            <p>Delivery Charge: ₹{deliveryCharge}</p>
+            <p>Please review your payment details below.</p>
           </div>
         )}
       </div>
@@ -305,18 +304,19 @@ function PaymentDetails({
                   onChange={(e) => setUpiId(e.target.value)}
                   className="form-control"
                 />
-                <button
-                  onClick={handleUpiVerification}
-                  className="btn btn-outline-primary"
-                >
+                <button onClick={handleUpiVerification} className="btn btn-outline-primary">
                   Verify
                 </button>
                 {upiError && <p className="text-danger">{upiError}</p>}
               </div>
             )}
-            <button onClick={onPlaceOrder} className="btn btn-success pay-now-btn">
-              Pay Now
-            </button>
+            {!paymentVerified ? (
+              <button onClick={handlePayNow} className="btn btn-success pay-now-btn">
+                Pay Now
+              </button>
+            ) : (
+              <p>Payment Verified</p>
+            )}
           </div>
         )}
         {paymentMethod === "Debit Card" && (
@@ -345,15 +345,20 @@ function PaymentDetails({
                 onChange={handleCvvChange}
               />
             </div>
-            <button onClick={onPlaceOrder} className="btn btn-success pay-now-btn">
-              Pay Now
-            </button>
+            {!paymentVerified ? (
+              <button onClick={handlePayNow} className="btn btn-success pay-now-btn">
+                Pay Now
+              </button>
+            ) : (
+              <p>Payment Verified</p>
+            )}
           </div>
         )}
         {paymentMethod === "Cash on Delivery" && (
           <div className="cod-payment-content">
             <p>
-              You have selected Cash on Delivery. Please ensure you have the exact amount ready.
+              You have selected Cash on Delivery. No online payment is required.
+              Please prepare the exact amount for the delivery agent.
             </p>
           </div>
         )}
@@ -362,34 +367,49 @@ function PaymentDetails({
   );
 }
 
-// Confirmation Component
+// -------------------------------------------------------------------
+// Component: Confirmation
+// Displays order confirmation and navigation options after order placement.
+// -------------------------------------------------------------------
 function Confirmation({ resetCheckout }) {
+  const navigate = useNavigate();
   return (
     <div className="confirmation">
       <h2>Order Confirmed!</h2>
       <p>Thank you for your purchase. Your order is being processed.</p>
-      <button onClick={resetCheckout} className="btn btn-secondary">
+      <button onClick={() => navigate("/admin")} className="btn btn-secondary">
         Back to Home
+      </button>
+      <button onClick={() => navigate("/myorder")} className="btn btn-primary">
+        View My Orders
       </button>
     </div>
   );
 }
 
-// Main Checkout Component
+// -------------------------------------------------------------------
+// Main Component: Checkout
+// Orchestrates the checkout process: address selection, order summary,
+// payment, and confirmation.
+// -------------------------------------------------------------------
 export default function Checkout() {
   const navigate = useNavigate();
   const { orders, setOrders } = useContext(OrderContext);
+
+  // Step 1: Address, 2: Order Summary, 3: Payment, 4: Confirmation
   const [step, setStep] = useState(1);
+
+  // Address-related state
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [addresses, setAddresses] = useState([
-    { name: "Home", address: "123 Street", city: "City", pincode: "123456", state: "State", country: "Country" },
-    { name: "Office", address: "456 Avenue", city: "City", pincode: "654321", state: "State", country: "Country" },
+    { name: "Home", phone: "1234567890", address: "123 Street", city: "City", pincode: "123456", state: "State", country: "Country" },
+    { name: "Office", phone: "9876543210", address: "456 Avenue", city: "City", pincode: "654321", state: "State", country: "Country" },
   ]);
-  const [newAddress, setNewAddress] = useState({ name: "", address: "", city: "", pincode: "", state: "", country: "" });
+  const [newAddress, setNewAddress] = useState({ name: "", phone: "", address: "", city: "", pincode: "", state: "", country: "" });
   const [editingIndex, setEditingIndex] = useState(null);
-  const addressFieldsOrder = ["name", "address", "pincode", "city", "state", "country"];
+  const addressFieldsOrder = ["name", "phone", "address", "pincode", "city", "state", "country"];
 
-  // Retrieve selected products from localStorage
+  // Retrieve selected items from localStorage
   const [selectedItems, setSelectedItems] = useState([]);
   useEffect(() => {
     const items = localStorage.getItem("selectedItems");
@@ -398,7 +418,7 @@ export default function Checkout() {
     }
   }, []);
 
-  // Retrieve coupon discount (percentage) from localStorage
+  // Retrieve coupon discount from localStorage (if applied)
   const [couponDiscount, setCouponDiscount] = useState(0);
   useEffect(() => {
     const storedCoupon = localStorage.getItem("newdiscountcoupon");
@@ -407,27 +427,22 @@ export default function Checkout() {
     }
   }, []);
 
+  // Price Calculations
   const deliveryCharge = 50;
-  const originalTotal = selectedItems.reduce(
-    (acc, item) => acc + item.oprice * (item.quantity || 1),
-    0
-  );
-  const productTotal = selectedItems.reduce(
-    (acc, item) => acc + item.dprice * (item.quantity || 1),
-    0
-  );
+  const originalTotal = selectedItems.reduce((acc, item) => acc + item.oprice * (item.quantity || 1), 0);
+  const productTotal = selectedItems.reduce((acc, item) => acc + item.dprice * (item.quantity || 1), 0);
   const discountCalculated = originalTotal - productTotal;
-  const couponDiscounted = couponDiscount
-    ? Math.trunc((couponDiscount / 100) * productTotal)
-    : 0;
+  const couponDiscounted = couponDiscount ? Math.trunc((couponDiscount / 100) * productTotal) : 0;
   const totalPrice = productTotal - couponDiscounted + deliveryCharge;
 
+  // Payment-related state
   const [paymentMethod, setPaymentMethod] = useState("UPI");
   const [upiId, setUpiId] = useState("");
   const [verifiedUpi, setVerifiedUpi] = useState(false);
   const [selectedUpiApp, setSelectedUpiApp] = useState("PhonePe");
-  const [paymentCompleted, setPaymentCompleted] = useState(false);
+  const [paymentVerified, setPaymentVerified] = useState(false);
 
+  // Handler: Validate pincode and auto-fill address fields (simulate fetch)
   const handlePincodeBlur = () => {
     const { pincode } = newAddress;
     if (pincode.length !== 6) {
@@ -443,6 +458,7 @@ export default function Checkout() {
     }));
   };
 
+  // Handler: Save or update address
   const handleSaveAddress = () => {
     if (editingIndex === null && addresses.length >= 4) {
       alert("You can only save up to 4 addresses.");
@@ -458,14 +474,16 @@ export default function Checkout() {
       setAddresses([...addresses, newAddress]);
       setSelectedAddress(newAddress);
     }
-    setNewAddress({ name: "", address: "", city: "", pincode: "", state: "", country: "" });
+    setNewAddress({ name: "", phone: "", address: "", city: "", pincode: "", state: "", country: "" });
   };
 
+  // Handler: Edit an existing address
   const handleEditAddress = (index) => {
     setNewAddress(addresses[index]);
     setEditingIndex(index);
   };
 
+  // Handler: Delete address and clear selection if needed
   const handleDeleteAddress = (index) => {
     const updatedAddresses = addresses.filter((_, i) => i !== index);
     setAddresses(updatedAddresses);
@@ -474,27 +492,32 @@ export default function Checkout() {
     }
   };
 
-  const verifyUpi = () => {
-    setVerifiedUpi(/^\w+@\w+$/.test(upiId));
-  };
-
-  const handlePaymentComplete = () => {
-    setPaymentCompleted(true);
-  };
-
-  useEffect(() => {
-    if (paymentMethod === "Cash on Delivery") {
-      setPaymentCompleted(true);
-    } else {
-      setPaymentCompleted(false);
+  // Handler: Place Order - create order and move to confirmation
+  const handlePlaceOrder = () => {
+    if (selectedItems.length === 0) {
+      alert("No items selected for the order.");
+      return;
     }
-  }, [paymentMethod]);
+    const newOrder = {
+      id: Date.now(),
+      date: new Date().toISOString().split("T")[0],
+      amount: totalPrice,
+      status: "Order Placed",
+      progressStep: 1,
+      items: selectedItems,
+    };
 
+    setOrders((prevOrders) => [...prevOrders, newOrder]);
+    localStorage.removeItem("selectedItems");
+    setStep(4);
+  };
+
+  // Navigation handlers for checkout steps
   const handleNext = () => {
     if (step === 1 && !selectedAddress) {
       if (newAddress.name && newAddress.address && newAddress.pincode) {
         setSelectedAddress(newAddress);
-        setNewAddress({ name: "", address: "", city: "", pincode: "", state: "", country: "" });
+        setNewAddress({ name: "", phone: "", address: "", city: "", pincode: "", state: "", country: "" });
       } else {
         alert("Please select or enter a valid address.");
         return;
@@ -513,24 +536,9 @@ export default function Checkout() {
 
   const resetCheckout = () => setStep(1);
 
-  // Update handlePlaceOrder to update OrderContext
-  const handlePlaceOrder = () => {
-    if (paymentCompleted) {
-      const newOrder = {
-        id: Date.now(), // Unique id
-        date: new Date().toISOString().split("T")[0],
-        amount: totalPrice,
-        status: "Order Placed", // Make sure this status is set correctly
-        progressStep: 1, // This should represent the first step
-        items: selectedItems, // Ensure this is not empty!
-      };
-
-      console.log("New Order:", newOrder);
-      setOrders((prevOrders) => [...prevOrders, newOrder]);
-      setStep(4);
-    }
-  };
-
+  // -------------------------------------------------------------------
+  // Render Main Checkout UI
+  // -------------------------------------------------------------------
   return (
     <div className="checkout-wrapper">
       <div className="checkout-header">
@@ -575,32 +583,31 @@ export default function Checkout() {
             upiId={upiId}
             setUpiId={setUpiId}
             verifiedUpi={verifiedUpi}
-            verifyUpi={verifyUpi}
+            verifyUpi={() => {}}
             selectedUpiApp={selectedUpiApp}
             setSelectedUpiApp={setSelectedUpiApp}
-            onPlaceOrder={handlePlaceOrder}
-            productTotal={productTotal}
-            discountCalculated={discountCalculated}
-            couponDiscount={couponDiscount} // percentage from cart
-            deliveryCharge={deliveryCharge}
-            totalPrice={totalPrice}
+            onPaymentVerified={setPaymentVerified}
+            paymentVerified={paymentVerified}
           />
         )}
         {step === 4 && <Confirmation resetCheckout={resetCheckout} />}
       </div>
       <div className="checkout-footer">
-        <button onClick={handlePrev} className="btn btn-outline-secondary">
-          Back
-        </button>
-        {step === 3 && (
-          <button onClick={handlePlaceOrder} className="btn btn-primary" disabled={!paymentCompleted}>
-            Place Order
-          </button>
-        )}
-        {step < 4 && step !== 3 && (
-          <button onClick={handleNext} className="btn btn-primary">
-            Next
-          </button>
+        {step !== 4 && (
+          <>
+            <button onClick={handlePrev} className="btn btn-outline-secondary">
+              Back
+            </button>
+            {step === 3 ? (
+              <button onClick={handlePlaceOrder} className="btn btn-primary" disabled={!paymentVerified}>
+                Place Order
+              </button>
+            ) : (
+              <button onClick={handleNext} className="btn btn-primary">
+                Next
+              </button>
+            )}
+          </>
         )}
       </div>
     </div>

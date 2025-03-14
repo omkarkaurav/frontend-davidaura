@@ -9,7 +9,7 @@ import "../style/style.css";
 
 const HeroSection = () => {
   return (
-    <section className="section-1">
+    <section id="home-section" className="section-1">
       <div className="hero-container ">
         <div className="title">
           <div className="head-title">
@@ -22,14 +22,12 @@ const HeroSection = () => {
         </div>
         <div className="hero-bottom">
           <div className="shop-btn">
-            <a href="">
-              <button>
+              <button onClick={() => document.getElementById('shop-section').scrollIntoView({ behavior: 'smooth' })}>
                 Shop Now
                 <span>
                   <img src={RIghtArrowIcon} alt="" />
                 </span>
               </button>
-            </a>
           </div>
           <div className="social-link">
             <a

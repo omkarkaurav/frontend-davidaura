@@ -7,23 +7,26 @@
 }
 
 .myorder-container .title {
-    margin-top: 80px;
+    margin-top: 60px;
     font-weight: bolder;
     font-size: 32px;
     width: 100%;
+    text-align: center;
 }
 
 .myorders {
     display: flex;
     width: 100%;
-    flex-wrap: wrap; /* Allow flex items to wrap on smaller screens */
+    min-height: 70vh;
+    flex-wrap: wrap;
     gap: 20px;
+    justify-content: center;
 }
 
 .orders-section {
     flex: 3;
     background: white;
-    padding: 10px;
+    padding: 15px;
     border-radius: 10px;    
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
@@ -31,7 +34,7 @@
 .suggestions-section {
     flex: 1;
     background: white;
-    padding: 20px;
+    padding: 15px;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
@@ -65,9 +68,12 @@
     margin-top: 10px;
 }
 
-.order-item{
-    margin-top: 20px;
+.order-item {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
 }
+
 .order-items img {
     width: 50px;
     height: 50px;
@@ -80,6 +86,8 @@
     margin-top: 10px;
     display: flex;
     gap: 10px;
+    flex-wrap: wrap; 
+    justify-content: center;
 }
 
 button {
@@ -100,11 +108,17 @@ button {
 .cancel-btn {
     background: rgb(189, 30, 30);
 }
-
+.cancelled-btn {
+    background: rgb(189, 30, 30);
+}
+.cancellation-btn {
+    background: rgb(189, 30, 30);
+}
 .reorder-btn {
     background: rgb(3, 56, 112);
     color: white;
 }
+
 .track-btn:hover {
     background: white;
     color: black;
@@ -122,33 +136,35 @@ button {
     background: #f0f0f0;
 }
 
+.order-progress{
+    margin-top: 30px;
+}
 
 /* Progress steps */
 .progress-steps {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     width: 100%;
-    position: relative;
-    margin-top: 30px;
-    flex-wrap: wrap; 
-}
-
-.step-wrapper {
     display: flex;
+    justify-content: center;
     align-items: center;
     position: relative;
-    text-align: center;
+    /* flex-wrap: wrap; */
 }
 
-.step {
+
+
+.myorder-step {
+    flex-direction: column;
     display: flex;
+    height: 80px;
+    gap: 20px;
+    justify-items: center;
     align-items: center;
+    align-content: center;
     position: relative;
 }
 
 .step-number {
-    width: 30px;
+    width: 30px; 
     height: 30px;
     background-color: #ccc;
     display: flex;
@@ -156,19 +172,19 @@ button {
     align-items: center;
     color: white;
     border-radius: 50%;
-    line-height: 30px;
     font-size: 16px;
     font-weight: bold;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.step.completed .step-number {
-    background-color: #4caf50; /* Green for completed steps */
+
+.myorder-step.completed .step-number {
+    background-color: #4caf50;
     color: white;
 }
 
-.step.current .step-number {
-    background-color: white; /* White for current step */
+.myorder-step.current .step-number {
+    background-color: white;
     border: 2px solid black;
     color: black;
 }
@@ -176,7 +192,7 @@ button {
 .step-label {
     font-size: 14px;
     color: #333;
-    margin-left: 10px;
+    margin-left: 5px;
 }
 
 /* Responsive Styles */
@@ -187,33 +203,27 @@ button {
 
     .myorders {
         flex-direction: column;
-        gap: 20px;
+        gap: 15px;
     }
 
     .orders-section,
     .suggestions-section {
-        flex: 1; /* Make both sections take full width on smaller screens */
+        flex: 1;
     }
 
     .order-card {
         padding: 12px;
-        font-size: 14px; /* Adjust font size for mobile */
+        font-size: 14px;
     }
 
     .suggested-product img {
-        width: 70%; /* Reduce image size on smaller screens */
+        width: 70%;
     }
 
-    /* Progress steps adjustments for smaller screens */
-    .progress-steps {
-        justify-content: space-between; /* Center the progress steps */
-    }
+   
 
     .step-wrapper {
-        /* width: 35%; */
-        margin-top: 10px;
-        justify-content: space-between;
-        /* min-width: 60px; Prevent steps from becoming too small */
+        justify-content: center;
     }
 
     .step-number {
@@ -234,49 +244,33 @@ button {
 
     .myorders {
         flex-direction: column;
-        gap: 20px;
+        gap: 10px;
     }
 
     .orders-section,
     .suggestions-section {
-        flex: 1; /* Full width on small screens */
+        flex: 1;
     }
 
     .title {
-        font-size: 28px; /* Adjust title font size for small screens */
-        margin-top: 50px;
+        font-size: 26px;
+        margin-top: 40px;
     }
 
     .order-card {
         padding: 10px;
-        font-size: 12px; /* Adjust font size for smaller screens */
+        font-size: 12px;
     }
 
-    /* Progress steps adjustments for mobile screens */
-    .progress-steps {
-        /* flex-wrap: wrap; */
-        justify-content: left; /* Center progress steps */
-        align-items: center;
-        gap: 15px;
-        margin-bottom: 20px;     
-    }
-
-    .step-wrapper {
-        /* width: 50%; Allow each step to take half the width */
-        /* min-width: 50px; Prevent too small step numbers */
-        justify-content: space-between;
-        gap: 20px;
-    }
+    
 
     .step-number {
         width: 20px;
         height: 20px;
-        font-size: 12px; /* Smaller number size */
+        font-size: 12px;
     }
 
     .step-label {
         font-size: 10px;
     }
-
-    
 }

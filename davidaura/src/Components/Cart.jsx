@@ -287,11 +287,8 @@ function applyDiscount() {
   // -------------------------------
   return (
     <>
-      <button className="back-button" onClick={() => navigate(-1)}>
-        Back
-      </button>
-      <h1 className="cart-title">Your Shopping Cart</h1>
       <main className="main-container">
+      <h1 className="cart-title">Your Shopping Cart</h1>
         <div className="cart-item-summary-container">
           {/* ---------- Cart Items List ---------- */}
           <div className="cart-items-box">

@@ -16,6 +16,7 @@ import ContactUs from "./Components/ContactUs";
 import "./style/adminPanel.css";
 
 // Import providers for managing global state
+import ScrollToTop from "./ScrollToTop";
 import { ProductProvider } from "./contexts/productContext";
 import { OrderProvider } from "./contexts/OrderContext";
 import { CartProvider } from "./contexts/CartContext";
@@ -42,6 +43,7 @@ const App = () => {
             <ContactProvider>
               <CouponProvider>
                 <Router>
+                  <ScrollToTop />
                   <>
                     <Navbar
                       cartCount={cart.length || 0}

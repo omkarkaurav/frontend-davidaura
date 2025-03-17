@@ -1020,6 +1020,9 @@ const handleCouponUpdate = (updatedCoupon) => {
             {filteredQueries.length > 0 ? (
               filteredQueries.map((query, index) => (
                 <div key={index} className="query-card">
+                   <p>
+                    <strong>Name:</strong> {query.name}
+                  </p>
                   <p>
                     <strong>Email:</strong> {query.email}
                   </p>

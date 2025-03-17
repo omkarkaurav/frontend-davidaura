@@ -3,7 +3,6 @@
 .main-container {
   width: 100vw;
   min-height: 50vh;
-  /* max-width: 1200px; */
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -12,20 +11,39 @@
 .cart-item-summary-container {
   width: 100%;
   display: flex;
+  align-items: center;
   flex-direction: column;
   gap: 5px;
   margin: 0;
 }
 
 .cart-title {
-  width: 100%;
+  width: fit-content;
   text-align: center;
-  margin-top: 120px;
+  margin-top: 60px;
   margin-bottom: 30px;
   font-size: 32px;
   color:var(--blue);
   font-weight: bold ;
+  position: relative;
 }
+
+.cart-title::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0px;
+  transform: translateX(-50%);
+  width: 0;
+  height: 3px; /* Adjust the thickness of the underline */
+  background-color: currentColor; /* Matches the text color */
+  transition: width 0.5s ease-in-out;
+}
+
+.cart-title:hover::after {
+  width: 100%;
+}
+
 
 #remaining-products-container {
   width: 100%;
@@ -44,8 +62,6 @@
   justify-content: center;
   align-items: center;
   gap: 30px;
-  /* row-gap: 80px; */
-  /* padding: 50px; */
   font-size: 1rem;
 }
 .remaining-product-item {
@@ -104,16 +120,17 @@
 }
 
 .cart-items-box {
-  width: 100%;
+  width: 95%;
+  min-height: 40vh;
   display: flex;
   justify-content: center;
-  align-items: center;
   flex-wrap: wrap;
   font-size: 1rem;
   color: black;
-  border-radius: 22px;
+  border-radius: 12px;
+  padding: 10px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-    /* background-color: #f0eeee; */
+    background-color: #ffffff;
 }
 
 .cart-item {
@@ -129,7 +146,7 @@
   padding: 5px 10px;
   border-radius: 12px;
   margin: 20px 0;
-  border: 1px solid rgb(245, 245, 245);
+  border-bottom: 1px solid rgb(235, 235, 235);
 
 }
 
@@ -251,25 +268,26 @@
 }
 
 .cart-summary {
-  /* width: 100%; */
+  width: 95%;
   background-color: #ffffff;
   padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 70px;
   border-radius: 22px;
-  padding: 20px 20px;
+  padding: 40px 20px 20px 20px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
 .cart-summary-button {
   display: flex;
-  /* justify-content: space-between; */
+  width: 100%;
+  justify-content: space-evenly;
   align-items: center;
   flex-wrap: wrap;
-  gap: 50px;
+  gap: 30px;
 }
 
 .cart-summary-price {

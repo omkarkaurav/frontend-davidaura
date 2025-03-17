@@ -18,13 +18,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding:5px;
 }
-/* #register-form {
-  display: none;
-} */
-/* #otp {
-  display: none;
-} */
 
 /* Login form styling */
 .login_form {
@@ -32,9 +27,9 @@ body {
   max-width: 480px;
   background: #fff;
   border-radius: 12px;
-  padding: 15px 30px;
-  /* margin-top: 50px; */
-  /* box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); */
+  padding: 15px 10px;
+  margin: 50px 5px 0px 5px;
+  border: 1px solid rgb(201, 200, 200);
 }
 
 .login_form h3 {
@@ -62,7 +57,6 @@ body {
   justify-content: center;
   align-items: center;
   gap: 12px;
-  /* background: #f8f8fb; */
   border: 1px solid #dadaf2;
   border-radius: 5px;
   margin: 5px 0 24px 0;
@@ -90,28 +84,13 @@ body {
   position: relative;
   margin-bottom: 5px;
 }
-/* Login option separator styling */
-.login_form .separator span {
-  background: #fff;
-  z-index: 1;
-  padding: 0 10px;
-  position: relative;
-}
-.login_form .separator::after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  top: 50%;
-  left: 0;
-  height: 1px;
-  background: #c2c2c2;
-  display: block;
-}
+
 .login_form .input_box label {
   display: block;
   font-weight: 500;
   margin-bottom: 8px;
 }
+
 /* Input field styling */
 .Login_form .input_box input {
   width: 100%;
@@ -121,45 +100,50 @@ body {
   outline: none;
   background: #f8f8fb;
   font-size: 17px;
-  padding: 0px 20px;
   margin-bottom: 15px;
   transition: 0.2s ease;
 }
+
 .login_form .input_box input:focus {
   border-color: #626cd6;
 }
+
 .login_form .input_box .password_title {
   display: flex;
   justify-content: space-between;
   text-align: center;
 }
+
 .login_form .input_box {
   position: relative;
 }
+
 a {
   text-decoration: none;
   color: #626cd6;
   font-weight: 500;
 }
+
 a:hover {
   text-decoration: underline;
 }
+
 /* Login button styling */
 .login_form button {
   width: 100%;
-  height: 56px;
   border-radius: 5px;
   border: none;
   outline: none;
   background: #626cd6;
   color: #fff;
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: bold;
   text-transform: uppercase;
   cursor: pointer;
   margin-bottom: 15px;
   transition: 0.3s ease;
 }
+
 .login_form button:hover {
   background: #4954d0;
 }
@@ -167,17 +151,20 @@ a:hover {
 .input_box {
   margin-bottom: 20px;
 }
+
 .input_box label {
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
 }
+
 .input_box input {
   width: 100%;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
 }
+
 .login_form button {
   width: 100%;
   padding: 10px;
@@ -202,7 +189,7 @@ a:hover {
 .error {
   color: red;
   font-size: 12px;
-  display: none; /* Initially hidden */
+  display: none; 
   margin-top: 5px;
 }
 
@@ -212,7 +199,7 @@ a:hover {
   border-radius: 12px;
   padding: 15px 30px;
   margin: 100px 0px 50px 0px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgb(201, 200, 200);
 }
 
 .register_form h3 {
@@ -229,10 +216,14 @@ a:hover {
 }
 
 .phone-number input {
-  width: 80%;
+  width: 60%;
+  height:100%;
+  padding:15px;
 }
 .phone-number button {
-  width: 35%;
+  width: 40%;
+  height:100%;
+  padding:15px;
 }
 .register-password {
   display: flex;
@@ -288,22 +279,7 @@ a:hover {
   margin-bottom: 5px;
 }
 /* Login option separator styling */
-.register_form .separator span {
-  background: #fff;
-  z-index: 1;
-  padding: 0 10px;
-  position: relative;
-}
-.register_form .separator::after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  top: 50%;
-  left: 0;
-  height: 1px;
-  background: #c2c2c2;
-  display: block;
-}
+
 .error {
   color: red;
   font-size: 12px;
@@ -333,9 +309,9 @@ a:hover {
 
 @media (max-width: 480px) {
   .register_form {
-    width: 90%;
+    width: 100%;
     padding: 15px 10px;
-    margin: 30px 15px 0px 15px;
+    margin: 30px 5px 0px 5px;
   }
 
   .register_form label {
@@ -352,19 +328,21 @@ a:hover {
     margin-bottom: 10px;
     gap: 10px;
   }
-
+  
   .phone-number input {
-    width: 70%;
+    width: 60%;
+    height:100%;
+    padding:15px;
   }
-
   .phone-number button {
-    width: 30%;
-    padding: 10px;
-    background: #626cd6;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    width: 40%;
+    height:100%;
+    padding:15px;
+  }
+  .register-password {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
   }
 
   .register-password {

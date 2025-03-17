@@ -4,7 +4,7 @@ import { ContactContext } from "../contexts/ContactContext";
 import "../style/contactus.css";
 
 const ContactUs = () => {
-  const [formData, setFormData] = useState({ email: "", phone: "", message: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
   const { addQuery } = useContext(ContactContext);
 
@@ -17,7 +17,7 @@ const ContactUs = () => {
     e.preventDefault();
     addQuery(formData);
     setSubmitted(true);
-    setFormData({ email: "", phone: "", message: "" });
+    setFormData({ name: "", email: "", phone: "", message: "" });
   };
 
   return (
@@ -27,6 +27,18 @@ const ContactUs = () => {
         <p>Thank you for contacting us! We will get back to you soon.</p>
       ) : (
         <form onSubmit={handleSubmit} className="contact-form">
+          <div className="form-group">
+            <label htmlFor="name">Name:</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Enter your name"
+              required
+            />
+          </div>
           <div className="form-group">
             <label htmlFor="email">Email:</label>
             <input

@@ -19,49 +19,46 @@ const LoginRegisterForm = () => {
   // ------------------------------------------------------------------
   // Registration State, Errors, and Touched Fields
   // ------------------------------------------------------------------
+  // Removed password and confirm password fields.
   const [registerValues, setRegisterValues] = useState({
     name: "",
     email: "",
     phone: "",
     otp: "",
-    password: "",
-    confirmPassword: "",
   });
-  // For password field, errors are stored as an array (others as strings)
   const [registerErrors, setRegisterErrors] = useState({
     name: "",
     email: "",
     phone: "",
     otp: "",
-    password: [],
-    confirmPassword: "",
   });
   const [registerTouched, setRegisterTouched] = useState({
     name: false,
     email: false,
     phone: false,
     otp: false,
-    password: false,
-    confirmPassword: false,
   });
-  // State to control display of the password criteria info.
-  const [showPasswordInfo, setShowPasswordInfo] = useState(false);
 
   // ------------------------------------------------------------------
   // Login State, Errors, and Touched Fields
   // ------------------------------------------------------------------
+  // Updated login state: replaced email and password with phone and otp.
   const [loginValues, setLoginValues] = useState({
-    email: "",
-    password: "",
+    phone: "",
+    otp: "",
   });
   const [loginErrors, setLoginErrors] = useState({
-    email: "",
-    password: "",
+    phone: "",
+    otp: "",
   });
   const [loginTouched, setLoginTouched] = useState({
-    email: false,
-    password: false,
+    phone: false,
+    otp: false,
   });
+
+  // State to store the generated OTP after clicking "Send OTP"
+  const [loginGeneratedOtp, setLoginGeneratedOtp] = useState("");
+  const [registerGeneratedOtp, setRegisterGeneratedOtp] = useState("");
 
   // ------------------------------------------------------------------
   // Function to Switch Between Forms
@@ -104,46 +101,30 @@ const LoginRegisterForm = () => {
     if (field === "otp") {
       if (!value.trim()) {
         error = "OTP is required.";
-      }
-      return error;
-    }
-    if (field === "password") {
-      if (!value.trim()) {
-        return ["Password is required."];
-      } else {
-        // Check for password strength criteria.
-        const missingCriteria = [];
-        if (!/[A-Z]/.test(value)) missingCriteria.push("An uppercase letter");
-        if (!/[a-z]/.test(value)) missingCriteria.push("A lowercase letter");
-        if (!/\d/.test(value)) missingCriteria.push("A number");
-        if (!/[\W_]/.test(value)) missingCriteria.push("A special character");
-        if (value.length < 8) missingCriteria.push("At least 8 characters");
-        return missingCriteria;
-      }
-    }
-    if (field === "confirmPassword") {
-      if (value !== registerValues.password) {
-        error = "Passwords do not match.";
+      } else if (!/^\d{6}$/.test(value)) {
+        error = "OTP must be 6 digits.";
       }
       return error;
     }
   };
 
   // Validate a single login field.
+  // Updated login validation to check for phone and otp.
   const validateLoginField = (field, value) => {
     let error = "";
-    if (field === "email") {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (field === "phone") {
       if (!value.trim()) {
-        error = "Email is required.";
-      } else if (!emailRegex.test(value)) {
-        error = "Invalid email address.";
+        error = "Phone number is required.";
+      } else if (!/^\d{10}$/.test(value)) {
+        error = "Phone number must be 10 digits.";
       }
       return error;
     }
-    if (field === "password") {
+    if (field === "otp") {
       if (!value.trim()) {
-        error = "Password is required.";
+        error = "OTP is required.";
+      } else if (!/^\d{6}$/.test(value)) {
+        error = "OTP must be 6 digits.";
       }
       return error;
     }
@@ -159,11 +140,6 @@ const LoginRegisterForm = () => {
     if (registerTouched[id]) {
       const error = validateRegisterField(id, value);
       setRegisterErrors((prev) => ({ ...prev, [id]: error }));
-      // Revalidate confirmPassword if password changes.
-      if (id === "password" && registerTouched.confirmPassword) {
-        const confirmError = validateRegisterField("confirmPassword", registerValues.confirmPassword);
-        setRegisterErrors((prev) => ({ ...prev, confirmPassword: confirmError }));
-      }
     }
   };
 
@@ -173,10 +149,6 @@ const LoginRegisterForm = () => {
     setRegisterTouched((prev) => ({ ...prev, [id]: true }));
     const error = validateRegisterField(id, value);
     setRegisterErrors((prev) => ({ ...prev, [id]: error }));
-    if (id === "password" && registerTouched.confirmPassword) {
-      const confirmError = validateRegisterField("confirmPassword", registerValues.confirmPassword);
-      setRegisterErrors((prev) => ({ ...prev, confirmPassword: confirmError }));
-    }
   };
 
   // ------------------------------------------------------------------
@@ -210,9 +182,7 @@ const LoginRegisterForm = () => {
       errors[field] = validateRegisterField(field, registerValues[field]);
     });
     setRegisterErrors(errors);
-    return Object.keys(errors).every((field) =>
-      field === "password" ? errors[field].length === 0 : errors[field] === ""
-    );
+    return Object.values(errors).every((error) => error === "");
   };
 
   // Validate all login fields; returns true if valid.
@@ -230,6 +200,7 @@ const LoginRegisterForm = () => {
   // ------------------------------------------------------------------
   const handleRegisterSubmit = () => {
     if (validateRegister()) {
+      // Optionally, you can verify the registration OTP here against registerGeneratedOtp if needed.
       console.log("Registration successful", registerValues);
       alert("Registration successful!");
     } else {
@@ -240,12 +211,61 @@ const LoginRegisterForm = () => {
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     if (validateLogin()) {
+      // Verify OTP for login.
+      if (!loginGeneratedOtp) {
+        alert("Please send OTP first.");
+        return;
+      }
+      if (loginValues.otp !== loginGeneratedOtp) {
+        setLoginErrors((prev) => ({ ...prev, otp: "OTP doesn't match." }));
+        alert("OTP doesn't match.");
+        return;
+      }
       console.log("Login successful", loginValues);
       alert("Login successful!");
     } else {
       alert("Please fix the errors in the form.");
     }
   };
+
+  // ------------------------------------------------------------------
+  // OTP Button Handlers
+  // ------------------------------------------------------------------
+  // Handler for sending OTP in the login form.
+  const handleSendLoginOtp = () => {
+    const phoneError = validateLoginField("phone", loginValues.phone);
+    if (phoneError) {
+      setLoginErrors((prev) => ({ ...prev, phone: phoneError }));
+      alert("Please enter a valid phone number to send OTP.");
+      return;
+    }
+    // Generate a random 6-digit OTP as a string.
+    const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+    setLoginGeneratedOtp(generatedOtp);
+    // For testing purposes, auto-fill the OTP input field:
+    setLoginValues((prev) => ({ ...prev, otp: generatedOtp }));
+    console.log("Login OTP sent:", generatedOtp);
+    alert(`OTP sent to your phone! (For testing, OTP is: ${generatedOtp})`);
+  };
+  
+
+  // Handler for sending OTP in the registration form.
+  const handleSendRegisterOtp = () => {
+    const phoneError = validateRegisterField("phone", registerValues.phone);
+    if (phoneError) {
+      setRegisterErrors((prev) => ({ ...prev, phone: phoneError }));
+      alert("Please enter a valid phone number to send OTP.");
+      return;
+    }
+    // Generate a random 6-digit OTP as a string.
+    const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+    setRegisterGeneratedOtp(generatedOtp);
+    // For testing, auto-fill the OTP input field:
+    setRegisterValues((prev) => ({ ...prev, otp: generatedOtp }));
+    console.log("Registration OTP sent:", generatedOtp);
+    alert(`OTP sent to your phone! (For testing, OTP is: ${generatedOtp})`);
+  };
+  
 
   // ------------------------------------------------------------------
   // Render Component
@@ -289,90 +309,49 @@ const LoginRegisterForm = () => {
                 <span className="error">{registerErrors.email}</span>
               )}
             </div>
-            {/* Phone Input with OTP Button */}
+            {/* Phone Input */}
             <div className="input_box">
               <label htmlFor="phone">Phone</label>
-              <div className="phone-number">
-                <input
-                  type="text"
-                  id="phone"
-                  placeholder="Enter phone number"
-                  value={registerValues.phone}
-                  onChange={handleRegisterChange}
-                  onBlur={handleRegisterBlur}
-                  required
-                />
-                <button type="button" id="otpBtn">Send OTP</button>
-              </div>
+              <input
+                type="text"
+                id="phone"
+                placeholder="Enter phone number"
+                value={registerValues.phone}
+                onChange={handleRegisterChange}
+                onBlur={handleRegisterBlur}
+                required
+              />
               {registerTouched.phone && registerErrors.phone && (
                 <span className="error">{registerErrors.phone}</span>
               )}
             </div>
-            {/* OTP Input */}
+            {/* OTP Input with "Send OTP" Button */}
             <div className="input_box">
               <label htmlFor="otp">OTP</label>
-              <input
-                type="text"
-                id="otp"
-                placeholder="Enter OTP"
-                value={registerValues.otp}
-                onChange={handleRegisterChange}
-                onBlur={handleRegisterBlur}
-                required
-              />
+              <div className="phone-number">
+                <input
+                  type="text"
+                  id="otp"
+                  placeholder="Enter OTP"
+                  value={registerValues.otp}
+                  onChange={handleRegisterChange}
+                  onBlur={handleRegisterBlur}
+                  required
+                />
+                <button type="button" id="otpBtn" onClick={handleSendRegisterOtp}>
+                  Send OTP
+                </button>
+              </div>
               {registerTouched.otp && registerErrors.otp && (
                 <span className="error">{registerErrors.otp}</span>
               )}
             </div>
-            {/* Password Input with Password Info */}
-            <div className="password_container">
-              <div className="input_box">
-                <label htmlFor="password">Password</label>
-                <input
-                  type="password"
-                  id="password"
-                  placeholder="Enter your password"
-                  value={registerValues.password}
-                  onChange={handleRegisterChange}
-                  onFocus={() => setShowPasswordInfo(true)}
-                  onBlur={(e) => {
-                    handleRegisterBlur(e);
-                    setShowPasswordInfo(false);
-                  }}
-                  required
-                />
-              </div>
-              {showPasswordInfo &&
-                registerTouched.password &&
-                Array.isArray(registerErrors.password) &&
-                registerErrors.password.length > 0 && (
-                  <div className="password-info">
-                    <ul>
-                      {registerErrors.password.map((err, idx) => (
-                        <li key={idx}>{err}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-            </div>
-            {/* Confirm Password Input */}
-            <div className="input_box">
-              <label htmlFor="confirmPassword">Confirm Password</label>
-              <input
-                type="password"
-                id="confirmPassword"
-                placeholder="Confirm your password"
-                value={registerValues.confirmPassword}
-                onChange={handleRegisterChange}
-                onBlur={handleRegisterBlur}
-                required
-              />
-              {registerTouched.confirmPassword && registerErrors.confirmPassword && (
-                <span className="error">{registerErrors.confirmPassword}</span>
-              )}
-            </div>
             {/* Register Submit Button */}
-            <button type="button" id="registerBtn" onClick={handleRegisterSubmit}>
+            <button
+              type="button"
+              id="registerBtn"
+              onClick={handleRegisterSubmit}
+            >
               Register
             </button>
             {/* Separator and Google Signup Option */}
@@ -390,7 +369,11 @@ const LoginRegisterForm = () => {
             {/* Link to Switch to Login Form */}
             <p className="sign_up">
               Already have an account?{" "}
-              <a href="#" onClick={() => showForm("login-form")} className="show-login">
+              <a
+                href="#"
+                onClick={() => showForm("login-form")}
+                className="show-login"
+              >
                 Log in
               </a>
             </p>
@@ -403,39 +386,41 @@ const LoginRegisterForm = () => {
         <div className="login_form" id="login-form">
           <form onSubmit={handleLoginSubmit}>
             <h3>Log in</h3>
-            {/* Email Input */}
+            {/* Phone Input */}
             <div className="input_box">
-              <label htmlFor="email">Email</label>
+              <label htmlFor="phone">Phone</label>
               <input
-                type="email"
-                id="email"
-                placeholder="Enter email address"
-                value={loginValues.email}
+                type="text"
+                id="phone"
+                placeholder="Enter phone number"
+                value={loginValues.phone}
                 onChange={handleLoginChange}
                 onBlur={handleLoginBlur}
                 required
               />
-              {loginTouched.email && loginErrors.email && (
-                <span className="error">{loginErrors.email}</span>
+              {loginTouched.phone && loginErrors.phone && (
+                <span className="error">{loginErrors.phone}</span>
               )}
             </div>
-            {/* Password Input */}
+            {/* OTP Input with "Send OTP" Button */}
             <div className="input_box">
-              <div className="password_title">
-                <label htmlFor="password">Password</label>
-                <a href="#">Forgot Password?</a>
+              <label htmlFor="otp">OTP</label>
+              <div className="phone-number">
+                <input
+                  type="text"
+                  id="otp"
+                  placeholder="Enter OTP"
+                  value={loginValues.otp}
+                  onChange={handleLoginChange}
+                  onBlur={handleLoginBlur}
+                  required
+                />
+                <button type="button" id="otpBtn" onClick={handleSendLoginOtp}>
+                  Send OTP
+                </button>
               </div>
-              <input
-                type="password"
-                id="password"
-                placeholder="Enter your password"
-                value={loginValues.password}
-                onChange={handleLoginChange}
-                onBlur={handleLoginBlur}
-                required
-              />
-              {loginTouched.password && loginErrors.password && (
-                <span className="error">{loginErrors.password}</span>
+              {loginTouched.otp && loginErrors.otp && (
+                <span className="error">{loginErrors.otp}</span>
               )}
             </div>
             {/* Login Submit Button */}
@@ -457,7 +442,11 @@ const LoginRegisterForm = () => {
             {/* Link to Switch to Registration Form */}
             <p className="sign_up">
               Don't have an account?{" "}
-              <a href="#" onClick={() => showForm("register-form")} className="show-register">
+              <a
+                href="#"
+                onClick={() => showForm("register-form")}
+                className="show-register"
+              >
                 Sign up
               </a>
             </p>

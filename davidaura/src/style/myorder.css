@@ -3,16 +3,35 @@
     width: 100%;
     min-height: 100vh;
     flex-direction: column;
+    align-items: center;
     padding: 0px 30px;
 }
 
-.myorder-container .title {
-    margin-top: 60px;
+.my-order-title {
+    margin-top: 80px;
     font-weight: bolder;
     font-size: 32px;
-    width: 100%;
+    width: fit-content;
     text-align: center;
+    position: relative;
+    margin-bottom: 20px;
 }
+
+.my-order-title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0px;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px; /* Adjust the thickness of the underline */
+    background-color: currentColor; /* Matches the text color */
+    transition: width 0.3s ease-in-out;
+  }
+  
+.my-order-title:hover::after {
+    width: 100%;
+  }
 
 .myorders {
     display: flex;
@@ -101,33 +120,32 @@ button {
 }
 
 .track-btn {
-    background: rgb(0, 0, 0);
-    border: 1px solid rgb(34, 34, 34);
-}
-
-.cancel-btn {
-    background: rgb(189, 30, 30);
-}
-.cancelled-btn {
-    background: rgb(189, 30, 30);
-}
-.cancellation-btn {
-    background: rgb(189, 30, 30);
-}
-.reorder-btn {
-    background: rgb(3, 56, 112);
-    color: white;
-}
-
-.track-btn:hover {
     background: white;
     color: black;
     border: 1px solid black;
 }
 
-.cancel-btn:hover {
-    background: rgb(211, 4, 4);
+.cancel-btn {
+    background: white;
+    color: black;
+    border: 1px solid black;
 }
+.cancelled-btn {
+    background: white;
+    color: black;
+    border: 1px solid black;
+}
+.cancellation-btn {
+    background: white;
+    color: black;
+    border: 1px solid black;
+}
+.reorder-btn {
+    background: white;
+    color: black;
+    border: 1px solid black;
+}
+
 
 .tracking-status {
     margin-top: 10px;

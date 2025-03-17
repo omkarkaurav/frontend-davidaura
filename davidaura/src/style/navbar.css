@@ -6,14 +6,14 @@
 }
 
 :root {
-  --blue: #0a1f44;
+  --blue: #06152e;
 }
 
 /* Global Body Styles */
 body {
   width: 100vw;
   background-color: white;
-  overflow-x: hidden;
+  overflow-x: hidden !important;
 }
 
 
@@ -345,26 +345,55 @@ header {
   font-weight: bold;
 }
 
-/* Login Button */
 #loginButton {
+  position: relative; /* establishes positioning context */
+  overflow: hidden;   /* hides the growing pseudo-element */
   padding: 8px 10px;
   background-color: rgb(0, 0, 0);
   border: 1px solid rgb(226, 226, 226);
   border-radius: 99px;
-  transition: background 0.5s ease;
+  transition: color 0.5s ease, border 0.5s ease;
   font-weight: bolder;
   color: white;
   font-size: 16px;
 }
+
+/* Ensure the text inside is above the pseudo-element */
+#loginButton .btn-text {
+  position: relative;
+  z-index: 2;
+}
+
 #loginButton a {
   text-decoration: none;
-  color: whitesmoke;
+  color: inherit;
 }
-#loginButton:hover {
+
+/* Create the balloon overlay with a lower z-index */
+#loginButton::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
   background-color: #ffffff;
+  border-radius: 99px;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.5s ease;
+  z-index: 1; /* behind the text */
+}
+
+#loginButton:hover {
   color: rgb(0, 0, 0);
   border: 1px solid black;
 }
+
+#loginButton:hover::after {
+  transform: scaleY(1);
+}
+
 
 .part-2 a {
   font-size: 16px;

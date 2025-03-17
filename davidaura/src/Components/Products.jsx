@@ -24,7 +24,7 @@ const Modal = ({ product, onClose }) => {
         if (targetElement) {
           targetElement.scrollIntoView({ behavior: "smooth" });
         }
-      }, 100); // Adjust delay if necessary
+      }, 500); // Adjust delay if necessary
 
       return () => clearTimeout(timeoutId);
     }
@@ -191,8 +191,8 @@ const CoverflowCarousel = ({ products, pause, onSlideClick }) => {
   }, []);
 
   // Calculate dynamic spacing:
-  // For devices ≤480px, use a multiplier of 0.74; otherwise, 0.23.
-  const spacing = windowWidth <= 480 ? windowWidth * 0.74 : windowWidth * 0.23;
+  // For devices ≤480px, use a multiplier of 0.74; otherwise, 0.22.
+  const spacing = windowWidth <= 480 ? windowWidth * 0.54 : windowWidth <= 780 ? windowWidth * 0.40 : windowWidth * 0.22;
 
   // Every 3 seconds, increase the shift by 1 slide if not paused.
   useEffect(() => {
@@ -216,38 +216,46 @@ const CoverflowCarousel = ({ products, pause, onSlideClick }) => {
     }
   }, [shift, products]);
 
-  // Define the center index as the beginning of the second copy (ensures active slide is initially at index = N).
+  // Define the center index as the beginning of the second copy.
   const center = N;
 
   // Compute the 3D transform style for each slide.
   const getSlideStyle = (index) => {
+    // Set slide dimensions based on screen width
+    const slideWidth = windowWidth <= 480 ? 200 : 300;
+    const slideHeight = windowWidth <= 480 ? "65%" : "90%";
+  
     const offset = (index - center) - shift;
     const baseScale = 0.8;
     const scale = Math.abs(offset) < 0.001 ? 1 : baseScale;
     const rotateY = offset * -45;
     const translateX = offset * spacing;
     const zIndex = Math.abs(offset) < 0.001 ? 2 : 1;
-
+  
     return {
-      transform: `translateX(${translateX}px) scale(${scale}) rotateY(${rotateY}deg)`,
+      transform: `translateX(${translateX}px) translateY(-50%) scale(${scale}) rotateY(${rotateY}deg)`,
       transition: animate ? "transform 1s ease" : "none",
       position: "absolute",
-      top: 1,
+      top: "50%",
       left: "50%",
-      marginLeft: "-150px", // Centers the slide (half of 300px width)
-      width: "300px",
-      height: "90%",
+      marginLeft: `-${slideWidth / 2}px`, // Centers the slide horizontally based on its width
+      width: `${slideWidth}px`,
+      height: slideHeight,
       zIndex,
       cursor: "pointer",
     };
   };
+  
+
+  // Set container width to 100% if screen width is below 480px, otherwise 85%
+  const containerWidth = windowWidth <= 480 ? "100%" : "85%";
 
   return (
     <div
       style={{
         position: "relative",
-        width: "100%",
-        height: "450px",
+        width: containerWidth,
+        height: "480px",
         perspective: "1000px",
         overflow: "hidden",
       }}
@@ -328,7 +336,7 @@ const Products = ({ cart, setCart, wishlist, setWishlist }) => {
       <h1 id="products-section" className="product-heading">Our Collection</h1>
 
       {/* Custom 3D Coverflow Carousel Section */}
-      <div className="w-full mb-10">
+      <div className="w-9/10 flex items-center justify-center py-10 rounded-[42px] shadow-[0px_4px_12px_rgba(0,0,0,0.1)] ">
         <CoverflowCarousel
           products={products}
           pause={modalProduct !== null}

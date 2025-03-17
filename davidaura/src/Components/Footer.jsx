@@ -8,7 +8,6 @@ import TwitterIcon from "../assets/icons8-x (1).svg";
 
 const Footer = () => {
   const navigate = useNavigate();
-  
 
   return (
     <footer class="footer">
@@ -16,48 +15,65 @@ const Footer = () => {
         <div class="footer-container">
           <div class="row">
             <div class="footer-col site-logo">
-              <h1>DEvidAura</h1>
+              <h1>DevidAura</h1>
             </div>
             <div class="footer-col">
               <ul class="footer-nav-links">
                 <li>
-                <a   onClick={() => {
-                  if (window.location.pathname === "/") {
-                    const targetElement = document.getElementById("home-section");
-                    if (targetElement) {
-                      targetElement.scrollIntoView({ behavior: "smooth" });
-                    }
-                  } else {
-                    navigate("/", { state: { scrollTo: "home-section" } });
-                  }
-                }}>Home</a>
+                  <a
+                    onClick={() => {
+                      if (window.location.pathname === "/") {
+                        const targetElement =
+                          document.getElementById("home-section");
+                        if (targetElement) {
+                          targetElement.scrollIntoView({ behavior: "smooth" });
+                        }
+                      } else {
+                        navigate("/", { state: { scrollTo: "home-section" } });
+                      }
+                    }}
+                  >
+                    Home
+                  </a>
                 </li>
                 <li>
-                <a   onClick={() => {
-                  if (window.location.pathname === "/") {
-                    const targetElement = document.getElementById("products-section");
-                    if (targetElement) {
-                      targetElement.scrollIntoView({ behavior: "smooth" });
-                    }
-                  } else {
-                    navigate("/", { state: { scrollTo: "products-section" } });
-                  }
-                }}>Products</a>
+                  <a
+                    onClick={() => {
+                      if (window.location.pathname === "/") {
+                        const targetElement =
+                          document.getElementById("products-section");
+                        if (targetElement) {
+                          targetElement.scrollIntoView({ behavior: "smooth" });
+                        }
+                      } else {
+                        navigate("/", {
+                          state: { scrollTo: "products-section" },
+                        });
+                      }
+                    }}
+                  >
+                    Products
+                  </a>
                 </li>
                 <li>
-                  <a   onClick={() => {
-                  if (window.location.pathname === "/") {
-                    const targetElement = document.getElementById("shop-section");
-                    if (targetElement) {
-                      targetElement.scrollIntoView({ behavior: "smooth" });
-                    }
-                  } else {
-                    navigate("/", { state: { scrollTo: "shop-section" } });
-                  }
-                }}>Shop</a>
+                  <a
+                    onClick={() => {
+                      if (window.location.pathname === "/") {
+                        const targetElement =
+                          document.getElementById("shop-section");
+                        if (targetElement) {
+                          targetElement.scrollIntoView({ behavior: "smooth" });
+                        }
+                      } else {
+                        navigate("/", { state: { scrollTo: "shop-section" } });
+                      }
+                    }}
+                  >
+                    Shop
+                  </a>
                 </li>
                 <li>
-                <a onClick={() =>navigate("/")}>Contact Us</a>
+                  <a onClick={() => navigate("/contact")}>Contact Us</a>
                 </li>
               </ul>
             </div>

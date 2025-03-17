@@ -103,7 +103,7 @@ const Navbar = ({ cartCount = 0, wishlistCount = 0 }) => {
         <div className="part-2">
           <ul className="nav-links">
             <li> <a onClick={() => navigate("/")}>Home </a></li>
-            <li> <a onClick={() => document.getElementById('products-section').scrollIntoView({ behavior: 'smooth' })}>Products</a> </li>
+            <li> <a onClick={() => document.getElementById('products-section').scrollIntoView({ behavior: 'smooth' })}>Collection</a> </li>
             <li> <a onClick={() => document.getElementById('shop-section').scrollIntoView({ behavior: 'smooth' })}>Shop</a> </li>
           </ul>
         </div>
@@ -138,10 +138,11 @@ const Navbar = ({ cartCount = 0, wishlistCount = 0 }) => {
               </div>
             ) : (
               <div id="loginSignupButtons">
-                <button id="loginButton" onClick={() => navigate("/login")}>
-                  Login / SignUp
-                </button>
-              </div>
+              <button id="loginButton" onClick={() => navigate("/login")}>
+                <span className="btn-text">Login / SignUp</span>
+              </button>
+            </div>
+            
             )}
 
             {/* Profile Dropdown Content (Hidden by default) */}
@@ -231,6 +232,7 @@ const Navbar = ({ cartCount = 0, wishlistCount = 0 }) => {
                 </div>
               </div>
             </div>
+            
             {/* End Mobile Sidebar */}
           </div>
         </div>

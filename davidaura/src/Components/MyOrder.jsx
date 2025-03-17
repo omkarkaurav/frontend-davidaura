@@ -134,7 +134,7 @@ const MyOrders = () => {
 
   return (
     <div className="myorder-container">
-      <h1 className="title">My Orders</h1>
+      <h1 className="my-order-title">My Orders</h1>
       {/* Example of displaying user-related information */}
       <p>
         Welcome back! You have placed <strong>{user.orderCount}</strong>{" "}

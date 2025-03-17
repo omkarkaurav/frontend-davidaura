@@ -66,7 +66,7 @@ const Wishlist = ({ wishlist, setWishlist, cart, setCart }) => {
   // Render the Wishlist UI
   // -----------------------------------------------------------
   return (
-    <div>
+    <div className="main-container">
       <h2 className="w-title">MY WISHLIST</h2>
       <div id="wishlist-container">
         <div id="wishlist-items">

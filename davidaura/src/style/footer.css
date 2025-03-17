@@ -10,8 +10,7 @@
     align-self: center;
     overflow-x: hidden;
 }
-
-
+  
 .footer-container {
     width: 100%;
     max-width: 1200px;
@@ -36,24 +35,6 @@
     justify-content: center;
 }
 
-.subscribe .form-control {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 200px;
-    outline: none;
-}
-
-.submit-btn {
-    padding: 10px 15px;
-    background: #333;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    margin-left: 5px;
-    border-radius: 4px;
-}
-
 .footer-nav-links {
     list-style: none;
     padding: 0;
@@ -71,8 +52,6 @@
     font-size: 16px;
 }
 
-
-
 .social-links {
     list-style: none;
     display: flex;
@@ -80,8 +59,6 @@
     align-items: center;
     gap: 15px;
 }
-
-
 
 .footer-bottom {
     
@@ -98,6 +75,7 @@
     color: #666;
     font-size: 14px;
 }
+
 .footer-bottom .footer-container{
     display: flex;
     flex-direction: column;
@@ -106,13 +84,13 @@
     gap: 15px;
 }
 
-footer a {
+.footer-nav-links a {
     color: #000;
     text-decoration: none !important;
     position: relative; /* Required for absolute positioning of the pseudo-element */
-  }
+}
   
-  footer a::after {
+footer a::after {
     content: "";
     position: absolute;
     left: 0;
@@ -121,11 +99,13 @@ footer a {
     height: 2px; /* Thickness of the underline */
     background-color: currentColor; /* Uses the link's color */
     transition: width 0.5s ease-in-out;
-  }
+}
   
+
 footer a:hover::after {
     width: 100%;
-  }
+}
+
 
 @media(max-width:430px){
     .row{

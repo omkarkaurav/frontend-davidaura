@@ -22,12 +22,18 @@ const HeroSection = () => {
         </div>
         <div className="hero-bottom">
           <div className="shop-btn">
-              <button onClick={() => document.getElementById('shop-section').scrollIntoView({ behavior: 'smooth' })}>
-                Shop Now
-                <span>
-                  <img src={RIghtArrowIcon} alt="" />
-                </span>
-              </button>
+            <button
+              onClick={() =>
+                document
+                  .getElementById("shop-section")
+                  .scrollIntoView({ behavior: "smooth" })
+              }
+            >
+              <span className="btn-text">Shop Now</span>
+              <span>
+                <img src={RIghtArrowIcon} alt="Arrow Icon" />
+              </span>
+            </button>
           </div>
           <div className="social-link">
             <a

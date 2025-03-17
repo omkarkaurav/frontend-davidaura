@@ -217,7 +217,7 @@ const Navbar = ({ cartCount = 0, wishlistCount = 0 }) => {
                           <img src={CartIcon} alt="" />
                           <a>Admin</a>
                         </li>
-                        <li>
+                        <li onClick={() => navigate("/contact")}>
                           <img src={MailUsIcon} alt="" />
                           <a>Contact Us</a>
                         </li>
